@@ -12,7 +12,6 @@ pygame.display.set_caption("DotCrowd")
 clock = pygame.time.Clock()
 
 
-
 game = game_module.Game()
 
 
@@ -24,6 +23,8 @@ def draw():
         window.blit(img, rect)
     for d in game.drawings:
         pygame.draw.rect(window, (0, 255, 0), d)
+    for c in game.control:
+        c.draw(window)
 
     pygame.display.update()
 
