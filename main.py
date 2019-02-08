@@ -1,13 +1,17 @@
 import pygame
-import config as cfg
+import config
 from entity import EmptySprite
 import game as game_module
 import towncenter
+
+cfg = config.Config()
 
 pygame.init()
 window = pygame.display.set_mode((cfg.DISPLAY_WIDTH, cfg.DISPLAY_HEIGHT))
 pygame.display.set_caption("DotCrowd")
 clock = pygame.time.Clock()
+
+
 
 game = game_module.Game()
 
