@@ -53,9 +53,10 @@ class WorkerInQueue:
             return True
 
     def valid_check(self):
-        if self.game.food >= 10:
+        if self.game.food >= 10 and self.game.population + 1 <= self.game.population_limit:
             return True
 
     def buy(self):
         self.game.food -= 10
+        self.game.population += 1
 
