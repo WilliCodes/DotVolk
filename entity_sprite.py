@@ -1,7 +1,7 @@
 import pygame
 
 
-class Entity(pygame.sprite.Sprite):
+class EntitySprite(pygame.sprite.Sprite):
 
     def __init__(self, pos):
         pygame.sprite.Sprite.__init__(self)

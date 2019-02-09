@@ -1,14 +1,14 @@
-from entity import Entity
+from control_sprite import ControlSprite
 import pygame
 import pygame.freetype
 
 
-class StatusBar(Entity):
+class StatusBar(ControlSprite):
 
     height = 10
 
     def __init__(self, height, game):
-        super(StatusBar, self).__init__(height)
+        super(StatusBar, self).__init__()
 
         surface = pygame.display.get_surface()
         self.rect = pygame.Rect((0, surface.get_height() - height),

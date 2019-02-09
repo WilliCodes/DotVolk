@@ -4,12 +4,16 @@ import math
 from resource import Resource
 from field import Field
 import time
+from queueable import Queueable
 
 
 class Worker(Unit):
 
     state_active = "state_active"
     state_inactive = "state_inactive"
+
+    build_time = 5
+    cost = {"food": 10, "wood": 0, "stone": 0, "pop": 1}
 
     def __init__(self, pos, game):
         super(Worker, self).__init__(pos)

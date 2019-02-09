@@ -1,7 +1,7 @@
-from entity import Entity
+from entity_sprite import EntitySprite
 
 
-class Resource(Entity):
+class Resource(EntitySprite):
 
     def __init__(self, pos):
         super(Resource, self).__init__(pos)

@@ -1,8 +1,9 @@
 import pygame
 import config
-from entity import EmptySprite
+from entity_sprite import EmptySprite
 import game as game_module
 import towncenter
+from worker import Worker
 
 cfg = config.Config()
 
@@ -55,7 +56,7 @@ def events():
             if event.key == pygame.K_w:
                 for s in sel_sprites:
                     if type(s) == towncenter.Towncenter:
-                        s.queue_worker(game)
+                        s.append_to_queue(Worker)
 
 
 def update():

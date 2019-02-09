@@ -1,8 +1,8 @@
-from entity import Entity
+from entity_sprite import EntitySprite
 import pygame
 
 
-class ProgressBar(Entity):
+class ProgressBar(EntitySprite):
 
     height = 10
 
