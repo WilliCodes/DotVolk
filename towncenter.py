@@ -31,3 +31,4 @@ class Towncenter(Building):
         if len(self.queue) > 0:
             if self.queue[0].progress():
                 del self.queue[0]
+

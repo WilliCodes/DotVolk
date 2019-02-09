@@ -9,19 +9,21 @@ from queueable import Queueable
 
 class Worker(Unit):
 
-    state_active = "state_active"
-    state_inactive = "state_inactive"
-
     build_time = 5
     cost = {"food": 10, "wood": 0, "stone": 0, "pop": 1}
+
+    image_path = './assets/worker.png'
+    name = 'Worker'
+
+    initial_hp = 100
+    hp_factor = 1
 
     def __init__(self, pos, game):
         super(Worker, self).__init__(pos)
         self.game = game
-        self.hp = 100
-        self.state = Worker.state_active
+        self.hp = Worker.initial_hp * Worker.hp_factor
 
-        self.image = pygame.image.load('./assets/worker.png').convert_alpha()
+        self.image = pygame.image.load(Worker.image_path).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = pos
 

@@ -34,7 +34,7 @@ class Queueable:
             self.start_time = time.time()
             self.end_time = self.start_time + self.build_time
             self.progress_bar = ProgressBar(self.origin, self.game)
-        progress = (time.time() - self.start_time) / (self.end_time - self.start_time)
+        progress = (time.time() - self.start_time) / self.build_time
         self.progress_bar.update_progress_bar(progress)
         if progress >= 1:
             self.game.place_worker(self.pos)
