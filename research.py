@@ -1,2 +1,4 @@
 class Research:
-    pass
+
+    def __init__(self):
+        pass

@@ -1,6 +1,7 @@
 from building import Building
 import pygame
 import worker
+import mercenary
 from queueable import Queueable
 
 
@@ -24,7 +25,7 @@ class Towncenter(Building):
 
         self.queue = []
 
-        self.queueable = [worker.Worker]
+        self.queueable = [worker.Worker, mercenary.Mercenary]
 
         self.hp = Towncenter.initial_hp * Towncenter.hp_factor
         self.hp_max = Towncenter.initial_hp * Towncenter.hp_factor
