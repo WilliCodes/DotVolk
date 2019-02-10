@@ -5,6 +5,11 @@ from queueable import Queueable
 
 
 class Towncenter(Building):
+
+    initial_hp = 1000
+    hp_factor = 1
+
+    name = "Towncenter"
     
     def __init__(self, pos, game):
         super(Towncenter, self).__init__(pos)
@@ -20,6 +25,9 @@ class Towncenter(Building):
         self.queue = []
 
         self.queueable = [worker.Worker]
+
+        self.hp = Towncenter.initial_hp * Towncenter.hp_factor
+        self.hp_max = Towncenter.initial_hp * Towncenter.hp_factor
 
     def append_to_queue(self, to_queue):
         if to_queue not in self.queueable:

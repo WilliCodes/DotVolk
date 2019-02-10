@@ -25,4 +25,3 @@ class StatusBar(ControlSprite):
         text += "      Population: " + str(self.game.population) + "/" + str(self.game.population_limit)
 
         font.render_to(self.surface, (10, self.rect.y + 5), text, (0, 0, 0))
-

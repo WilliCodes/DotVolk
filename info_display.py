@@ -7,54 +7,80 @@ class InfoDisplay(ControlSprite):
 
     def __init__(self, game):
         super(InfoDisplay, self).__init__()
-        self.game = game
-        self.entity = None
-        self.buttons = {}
-        self.font = pygame.freetype.SysFont('Consolas', 15)
 
+        self.game = game
+        self.entities = None
+        self.buttons = []
+
+        self.font = pygame.freetype.SysFont('Consolas', 15)
         self.surface = pygame.display.get_surface()
 
         self.height = 200
         self.width = self.surface.get_width()
-
         self.x = 0
-        self.y = self.surface.get_height() - self.height - 10 # 10: StatusBar height
+        self.y = self.surface.get_height() - self.height - 20  # 20: StatusBar height
 
-        self.rect = pygame.Rect((self.width, self.height), (self.x, self.y))
+        self.rect = pygame.Rect((self.x, self.y), (self.width, self.height))
 
-    def focus(self, entity):
-        self.entity = entity
+    def left_click(self, pos, entities):
 
-    def hide(self):
-        self.entity = None
+        if self.rect.collidepoint(pos):
+            for rect, func, obj in self.buttons:
+                if rect.collidepoint(pos):
+                    func(obj)
+        else:
+            if entities is None or len(entities) == 0:
+                self.entities = None
+            self.entities = entities
 
-    def button(self, text, x, y):
-        surf, rect = self.font.render(text, color=(0, 0, 0))
+        self.buttons = []
+
+    def label(self, text, x, y):
+        rect = self.font.get_rect(text)
         rect.x = x
         rect.y = y
-        return (surf, rect)
+        self.font.render_to(self.surface, (x, y), text)
+        return rect
 
     def draw(self):
         # Don't draw if nothing selected
-        if self.entity is None:
+        if self.entities is None:
             return
 
-        # Skip non-buildings for now
-        if not isinstance(self.entity, building.Building):
-            return
+        # single entity selected
+        if len(self.entities) == 1:
+            entity = self.entities[0]
 
-        # Building selected
-        if isinstance(self.entity, building.Building):
-            self.draw_building()
+            # Building selected
+            if isinstance(entity, building.Building):
+                self.draw_building(entity)
 
-    def draw_building(self,):
+    def draw_building(self, entity):
 
-        pygame.draw.rect(self.surface, (100, 100, 100), self.rect)
+        pygame.draw.rect(self.surface, (150, 150, 150), self.rect)
 
-        x = self.x
-        y = self.y
-        y_inc = self.font.get_sized_ascender()
+        x = self.x + 20
+        y = self.y + 20
+        y_inc = self.font.get_sized_ascender() + 5
 
-        for q in self.entity.queueable:
-            btn = self.button(q.name, x, y)
-            self.buttons[q] = self.entity.append_to_queue
+        self.buttons = []
+        for q in entity.queueable:
+            btn = self.label(q.name, x, y)
+            self.buttons.append((btn, entity.append_to_queue, q))
+            y += y_inc
+
+        size = self.font.get_rect(entity.name)
+        y = self.y + 50
+        x = (self.width / 2) - (size.width / 2)
+        self.label(entity.name, x, y)
+
+        size = self.font.get_rect(str(entity.hp) + ' / ' + str(entity.hp_max))
+        x = (self.width / 2) - (size.width / 2)
+        y += 20
+        self.label(str(entity.hp) + ' / ' + str(entity.hp_max), x, y)
+
+        x = self.width * 0.75
+        y = self.y + 20
+        for q in entity.queue:
+            self.label(q.to_queue.name, x, y)
+            y += y_inc
