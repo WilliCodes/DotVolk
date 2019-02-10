@@ -24,7 +24,7 @@ def draw():
     for d in game.drawings:
         pygame.draw.rect(window, (0, 255, 0), d)
     for c in game.control:
-        c.draw(window)
+        c.draw()
 
     pygame.display.update()
 

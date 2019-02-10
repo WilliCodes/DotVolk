@@ -4,7 +4,6 @@ import math
 from resource import Resource
 from field import Field
 import time
-from queueable import Queueable
 
 
 class Worker(Unit):
@@ -22,6 +21,7 @@ class Worker(Unit):
         super(Worker, self).__init__(pos)
         self.game = game
         self.hp = Worker.initial_hp * Worker.hp_factor
+        self.hp_max = Worker.initial_hp * Worker.hp_factor
 
         self.image = pygame.image.load(Worker.image_path).convert_alpha()
         self.rect = self.image.get_rect()
