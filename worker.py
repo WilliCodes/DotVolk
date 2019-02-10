@@ -27,6 +27,8 @@ class Worker(Unit):
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = pos
 
+        self.surface = pygame.display.get_surface()
+
         self.task = None
         self.last_task_time = None
 
@@ -35,6 +37,9 @@ class Worker(Unit):
     def update(self):
         self.move()
         self.work()
+
+    def draw(self):
+        self.surface.blit(self.image, self.rect)
 
     def work(self):
         col = pygame.sprite.spritecollide(self, self.game.entities, False)
@@ -74,3 +79,6 @@ class Worker(Unit):
 
                 if self.rect.center[0] == self.target[0] and self.rect.center[1] == self.target[1]:
                     self.target = None
+
+    def right_click(self, pos):
+        self.target = pos

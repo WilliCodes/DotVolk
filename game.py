@@ -10,7 +10,7 @@ class Game:
 
     def __init__(self):
         self.entities = pygame.sprite.Group()
-        self.drawings = []
+        self.drawings = pygame.sprite.Group()
         self.control = []
 
         self.wood = 100

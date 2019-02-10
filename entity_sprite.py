@@ -10,6 +10,12 @@ class EntitySprite(pygame.sprite.Sprite):
     def get_sprite(self):
         return self.image, self.rect
 
+    def right_click(self, pos):
+        pass
+
+    def key_pressed(self, key):
+        pass
+
 
 class EmptySprite(pygame.sprite.Sprite):
 

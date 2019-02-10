@@ -13,6 +13,8 @@ class Towncenter(Building):
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = pos
 
+        self.surface = pygame.display.get_surface()
+
         self.game = game
 
         self.queue = []
@@ -32,3 +34,9 @@ class Towncenter(Building):
             if self.queue[0].progress():
                 del self.queue[0]
 
+    def draw(self):
+        self.surface.blit(self.image, self.rect)
+
+    def key_pressed(self, key):
+        if key == 'w':
+            self.append_to_queue(worker.Worker)

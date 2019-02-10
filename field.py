@@ -14,4 +14,7 @@ class Field(Resource):
         self.image = pygame.image.load('./assets/field.png').convert()
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = pos
+        self.surface = pygame.display.get_surface()
 
+    def draw(self):
+        self.surface.blit(self.image, self.rect)

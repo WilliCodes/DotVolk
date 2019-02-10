@@ -20,6 +20,8 @@ class InfoDisplay(ControlSprite):
         self.x = 0
         self.y = self.surface.get_height() - self.height - 10 # 10: StatusBar height
 
+        self.rect = pygame.Rect((self.width, self.height), (self.x, self.y))
+
     def focus(self, entity):
         self.entity = entity
 
@@ -46,8 +48,8 @@ class InfoDisplay(ControlSprite):
             self.draw_building()
 
     def draw_building(self,):
-        rect = pygame.Rect((self.width, self.height), (self.x, self.y))
-        pygame.draw.rect(self.surface, (100, 100, 100), rect)
+
+        pygame.draw.rect(self.surface, (100, 100, 100), self.rect)
 
         x = self.x
         y = self.y

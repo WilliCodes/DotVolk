@@ -11,15 +11,18 @@ class ProgressBar(EntitySprite):
 
         self.entity = entity
 
+        self.surface = pygame.display.get_surface()
+
         self.rect = pygame.Rect((entity.rect.x, entity.rect.y - ProgressBar.height),
                                 (0, ProgressBar.height))
 
         self.game = game
-        self.game.drawings.append(self.rect)
+        self.game.drawings.add(self)
 
     def update_progress_bar(self, progress):
         self.rect.width = progress * self.entity.rect.width
         if progress >= 1:
-            self.game.drawings.remove(self.rect)
+            self.kill()
 
-
+    def draw(self):
+        pygame.draw.rect(self.surface, (0, 255, 0), self.rect)
