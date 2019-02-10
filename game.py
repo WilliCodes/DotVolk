@@ -31,6 +31,9 @@ class Game:
     def place_worker(self, pos):
         self.entities.add(Worker(pos, self))
 
+    def place_entity(self, entity, pos):
+        self.entities.add(entity(pos, self))
+
     def add_drawing(self, drawing):
         self.drawings.append(drawing)
 

@@ -1,5 +1,7 @@
 import time
 from progress_bar import ProgressBar
+from unit import Unit
+from research import Research
 
 
 class Queueable:
@@ -37,7 +39,10 @@ class Queueable:
         progress = (time.time() - self.start_time) / self.build_time
         self.progress_bar.update_progress_bar(progress)
         if progress >= 1:
-            self.game.place_worker(self.pos)
+            if issubclass(self.to_queue, Unit):
+                self.game.place_entity(self.to_queue, self.pos)
+            elif issubclass(self.to_queue, Research):
+                self.game.apply_research(self.to_queue)
             return True
 
     @staticmethod
