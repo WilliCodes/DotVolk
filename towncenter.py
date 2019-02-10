@@ -11,6 +11,8 @@ class Towncenter(Building):
     hp_factor = 1
 
     name = "Towncenter"
+
+    build_time = 20
     
     def __init__(self, pos, game):
         super(Towncenter, self).__init__(pos)

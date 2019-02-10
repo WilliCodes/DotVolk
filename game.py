@@ -4,6 +4,7 @@ import towncenter
 import field
 import status_bar
 import info_display
+import house
 
 
 class Game:
@@ -27,6 +28,7 @@ class Game:
         self.control.append(info_display.InfoDisplay(self))
         self.entities.add(towncenter.Towncenter((70, 70), self))
         self.entities.add(field.Field((200, 200), self))
+        self.entities.add(house.House((300, 300), self))
 
     def place_worker(self, pos):
         self.entities.add(Worker(pos, self))
