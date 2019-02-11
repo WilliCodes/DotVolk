@@ -36,6 +36,7 @@ class Game:
         self.entities.add(towncenter.Towncenter((70, 70), self))
         self.entities.add(field.Field((200, 200), self))
         self.entities.add(house.House((300, 300), self))
+        self.place_entity(worker.Worker, (50, 50))
 
     def place_worker(self, pos):
         self.entities.add(worker.Worker(pos, self))
