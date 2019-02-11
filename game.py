@@ -7,11 +7,19 @@ import status_bar
 import towncenter
 import worker
 import building
+import unit
+import resource
+
 
 class Game:
 
     def __init__(self):
         self.entities = pygame.sprite.Group()
+
+        self.units = pygame.sprite.Group()
+        self.buildings = pygame.sprite.Group()
+        self.resources = pygame.sprite.Group()
+
         self.drawings = pygame.sprite.Group()
         self.control = []
 
@@ -33,24 +41,40 @@ class Game:
 
         self.control.append(status_bar.StatusBar(20, self))
         self.control.append(info_display.InfoDisplay(self))
-        self.entities.add(towncenter.Towncenter((70, 70), self))
-        self.entities.add(field.Field((200, 200), self))
-        self.entities.add(house.House((300, 300), self))
+        self.place_entity(towncenter.Towncenter, (70, 70))
+        self.place_entity(field.Field, (200, 200))
+        self.place_entity(house.House, (300, 300))
         self.place_entity(worker.Worker, (50, 50))
-
-    def place_worker(self, pos):
-        self.entities.add(worker.Worker(pos, self))
 
     def place_entity(self, entity, pos):
         new_entity = entity(pos, self)
+
         if isinstance(new_entity, building.Building):
             new_entity.on_build()
+            self.buildings.add(new_entity)
+        elif isinstance(new_entity, unit.Unit):
+            self.units.add(new_entity)
+        elif isinstance(new_entity, resource.Resource):
+            self.resources.add(new_entity)
+
         self.entities.add(new_entity)
 
-    def remove_entity(self, entity):
+    def add_entity(self, entity):
+        if isinstance(entity, building.Building):
+            entity.on_build()
+            self.buildings.add(entity)
+        elif isinstance(entity, unit.Unit):
+            self.units.add(entity)
+        elif isinstance(entity, resource.Resource):
+            self.resources.add(entity)
+
+        self.entities.add(entity)
+
+    @staticmethod
+    def remove_entity(entity):
         if isinstance(entity, building.Building):
             entity.on_destroy()
-        self.entities.remove(entity)
+        entity.kill()
 
     def add_drawing(self, drawing):
         self.drawings.append(drawing)

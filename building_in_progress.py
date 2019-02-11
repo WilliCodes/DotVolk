@@ -95,5 +95,5 @@ class BuildingInProgress(Building):
             obj.progress_bar.kill()
             return None
         obj.buy()
-        game.entities.add(obj)
+        game.add_entity(obj)
         return True

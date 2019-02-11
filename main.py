@@ -23,7 +23,11 @@ def draw():
     window.fill((255, 255, 255))
 
     # draw in this order for overlapping
-    for e in game.entities:
+    for e in game.resources:
+        e.draw()
+    for e in game.buildings:
+        e.draw()
+    for e in game.units:
         e.draw()
     for d in game.drawings:
         d.draw()
@@ -50,5 +54,3 @@ while run:
     clock.tick(cfg.FPS)
 
 pygame.quit()
-
-
