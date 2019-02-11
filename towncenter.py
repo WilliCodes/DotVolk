@@ -1,23 +1,29 @@
 from building import Building
 import pygame
-import worker
 import mercenary
 from queueable import Queueable
+import worker
 
 
 class Towncenter(Building):
 
     initial_hp = 1000
     hp_factor = 1
+    hp_max = initial_hp * hp_factor
 
     name = "Towncenter"
+    cost = {"food": 0, "wood": 200, "stone": 50, "pop": 0}
+
+    image_path = './assets/towncenter.png'
 
     build_time = 20
+
+    queueable = [worker.Worker, mercenary.Mercenary]
     
     def __init__(self, pos, game):
         super(Towncenter, self).__init__(pos)
 
-        self.image = pygame.image.load('./assets/towncenter.png').convert_alpha()
+        self.image = pygame.image.load(self.image_path).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = pos
 
@@ -25,12 +31,9 @@ class Towncenter(Building):
 
         self.game = game
 
-        self.queue = []
-
-        self.queueable = [worker.Worker, mercenary.Mercenary]
-
         self.hp = Towncenter.initial_hp * Towncenter.hp_factor
-        self.hp_max = Towncenter.initial_hp * Towncenter.hp_factor
+
+        self.queue = []
 
     def append_to_queue(self, to_queue):
         if to_queue not in self.queueable:

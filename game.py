@@ -1,10 +1,11 @@
 import pygame
-from worker import Worker
-import towncenter
+
 import field
-import status_bar
-import info_display
 import house
+import info_display
+import status_bar
+import towncenter
+import worker
 
 
 class Game:
@@ -23,7 +24,13 @@ class Game:
 
         self.board_init()
 
+        self.placing_building = False
+
     def board_init(self):
+
+        # fixes circular imports
+        worker.Worker.buildable.append(towncenter.Towncenter)
+
         self.control.append(status_bar.StatusBar(20, self))
         self.control.append(info_display.InfoDisplay(self))
         self.entities.add(towncenter.Towncenter((70, 70), self))
@@ -31,7 +38,7 @@ class Game:
         self.entities.add(house.House((300, 300), self))
 
     def place_worker(self, pos):
-        self.entities.add(Worker(pos, self))
+        self.entities.add(worker.Worker(pos, self))
 
     def place_entity(self, entity, pos):
         self.entities.add(entity(pos, self))

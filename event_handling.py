@@ -26,10 +26,11 @@ class EventHandling:
 
                 # middle mouse button
                 elif e.button == 2:
-                    pass
+                    self.game.placing_building = False
 
                 # right mouse button
                 elif e.button == 3:
+                    self.game.placing_building = False
                     self.right_click(e)
 
             # mouse button up
@@ -44,6 +45,7 @@ class EventHandling:
 
                     # left drag
                     else:
+                        self.game.placing_building = False
                         self.left_drag(e)
 
                     # reset for next click
@@ -51,6 +53,7 @@ class EventHandling:
 
             # key pressed
             elif e.type == pygame.KEYUP:
+                self.game.placing_building = False
                 self.key_pressed(e)
 
     # right click currently only moves entities
@@ -61,6 +64,11 @@ class EventHandling:
             s.right_click(event.pos)
 
     def left_click(self, event):
+
+        if self.game.placing_building:
+            for c in self.game.control:
+                c.left_click(event.pos, self.sel_sprites)
+            self.game.placing_building = False
 
         # check collisions with control and entity sprites
         clicked = EmptySprite(event.pos, event.pos)

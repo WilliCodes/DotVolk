@@ -4,9 +4,14 @@ import math
 
 class Unit(EntitySprite):
 
+    buildable = []
+
     def __init__(self, pos):
         super(Unit, self).__init__(pos)
         self.target = None
+
+    def right_click(self, pos):
+        self.target = pos
 
     def move(self):
         # target should be a Sprite, to walk towards moving Units

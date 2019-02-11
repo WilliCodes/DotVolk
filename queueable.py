@@ -10,7 +10,6 @@ class Queueable:
         self.origin = origin
         self.to_queue = to_queue
         self.game = game
-
         self.start_time = None
         self.end_time = None
         self.build_time = to_queue.build_time

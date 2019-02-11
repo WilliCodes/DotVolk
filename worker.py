@@ -1,11 +1,16 @@
-from unit import Unit
-import pygame
-from resource import Resource
-from field import Field
 import time
 
+import pygame
 
-class Worker(Unit):
+import field
+import house
+import queueable
+import resource
+import unit
+import building_in_progress
+
+
+class Worker(unit.Unit):
 
     build_time = 5
     cost = {"food": 10, "wood": 0, "stone": 0, "pop": 1}
@@ -18,6 +23,8 @@ class Worker(Unit):
     hp_max = initial_hp * hp_factor
 
     velocity = 3
+
+    buildable = [house.House, field.Field]
 
     def __init__(self, pos, game):
         super(Worker, self).__init__(pos)
@@ -44,13 +51,13 @@ class Worker(Unit):
         col = pygame.sprite.spritecollide(self, self.game.entities, False)
         on_resource = False
         for e in col:
-            if isinstance(e, Resource):
+            if isinstance(e, resource.Resource):
                 on_resource = True
                 if self in e.workers:
                     if self.last_task_time + 1 <= time.time():
                         self.last_task_time = time.time()
                         e.amount = 1
-                        if isinstance(e, Field):
+                        if isinstance(e, field.Field):
                             self.game.food += 1
                 elif len(e.workers) < 5:
                     e.workers.add(self)
@@ -61,5 +68,10 @@ class Worker(Unit):
             self.task = None
             self.last_task_time = None
 
-    def right_click(self, pos):
-        self.target = pos
+    def start_building(self, to_build, pos):
+        if to_build not in self.buildable:
+            return
+        new_obj = building_in_progress.BuildingInProgress.try_build(pos, to_build, self.game)
+
+        if new_obj is not None:
+            self.target = pos
