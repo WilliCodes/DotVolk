@@ -72,7 +72,12 @@ class BuildingInProgress(Building):
         cost = self.cost
         if cost["food"] > self.game.food or cost["wood"] > self.game.wood or cost["stone"] > self.game.stone or self.game.population + cost["pop"] > self.game.population_limit:
             return False
+        return True
 
+    def check_collision(self):
+        collisions = pygame.sprite.spritecollide(self, self.game.entities, False)
+        if len(collisions) > 0:
+            return False
         return True
 
     def buy(self):
@@ -86,7 +91,7 @@ class BuildingInProgress(Building):
     def try_build(pos, building, game):
 
         obj = BuildingInProgress(pos, building, game)
-        if not obj.check_resources():
+        if not obj.check_resources() or not obj.check_collision():
             obj.progress_bar.kill()
             return None
         obj.buy()
