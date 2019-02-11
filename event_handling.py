@@ -73,7 +73,13 @@ class EventHandling:
         # check collisions with control and entity sprites
         clicked = EmptySprite(event.pos, event.pos)
         control_col = pygame.sprite.spritecollide(clicked, self.game.control, False)
-        entities_col = pygame.sprite.spritecollide(clicked, self.game.entities, False)
+
+        # select units first, then buildings, then anything else
+        entities_col = pygame.sprite.spritecollide(clicked, self.game.units, False)
+        if len(entities_col) == 0:
+            entities_col = pygame.sprite.spritecollide(clicked, self.game.buildings, False)
+        if len(entities_col) == 0:
+            entities_col = pygame.sprite.spritecollide(clicked, self.game.entities, False)
 
         # update selected sprites if no control element clicked
         if len(control_col) == 0:
@@ -88,7 +94,14 @@ class EventHandling:
 
     def left_drag(self, event):
         clicked = EmptySprite(self.mouse_down, event.pos)
-        collisions = pygame.sprite.spritecollide(clicked, self.game.entities, False)
+
+        # select units first, then buildings, then anything else
+        collisions = pygame.sprite.spritecollide(clicked, self.game.units, False)
+        if len(collisions) == 0:
+            collisions = pygame.sprite.spritecollide(clicked, self.game.buildings, False)
+        if len(collisions) == 0:
+            collisions = pygame.sprite.spritecollide(clicked, self.game.entities, False)
+
         if len(collisions) > 0:
             self.sel_sprites = collisions
         else:
