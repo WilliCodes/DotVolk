@@ -2,10 +2,6 @@ import time
 
 import pygame
 
-import field
-import house
-import queueable
-import resource
 import unit
 import building_in_progress
 
@@ -24,7 +20,7 @@ class Worker(unit.Unit):
 
     velocity = 3
 
-    buildable = [house.House, field.Field]
+    buildable = []
 
     def __init__(self, pos, game):
         super(Worker, self).__init__(pos)
@@ -42,31 +38,9 @@ class Worker(unit.Unit):
 
     def update(self):
         self.move()
-        self.work()
 
     def draw(self):
         self.surface.blit(self.image, self.rect)
-
-    def work(self):
-        col = pygame.sprite.spritecollide(self, self.game.entities, False)
-        on_resource = False
-        for e in col:
-            if isinstance(e, resource.Resource):
-                on_resource = True
-                if self in e.workers:
-                    if self.last_task_time + 1 <= time.time():
-                        self.last_task_time = time.time()
-                        e.amount = 1
-                        if isinstance(e, field.Field):
-                            self.game.food += 1
-                elif len(e.workers) < 5:
-                    e.workers.add(self)
-                    self.task = e
-                    self.last_task_time = time.time()
-        if self.task is not None and not on_resource:
-            self.task.workers.remove(self)
-            self.task = None
-            self.last_task_time = None
 
     def start_building(self, to_build, pos):
         if to_build not in self.buildable:

@@ -38,6 +38,8 @@ class Game:
 
         # fixes circular imports
         worker.Worker.buildable.append(towncenter.Towncenter)
+        worker.Worker.buildable.append(house.House)
+        worker.Worker.buildable.append(field.Field)
 
         self.control.append(status_bar.StatusBar(20, self))
         self.control.append(info_display.InfoDisplay(self))
