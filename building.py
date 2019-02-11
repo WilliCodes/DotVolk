@@ -9,3 +9,9 @@ class Building(EntitySprite):
         super(Building, self).__init__(pos)
 
         self.queue = []
+
+    def on_build(self):
+        pass
+
+    def on_destroy(self):
+        pass

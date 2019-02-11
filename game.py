@@ -6,7 +6,7 @@ import info_display
 import status_bar
 import towncenter
 import worker
-
+import building
 
 class Game:
 
@@ -41,7 +41,15 @@ class Game:
         self.entities.add(worker.Worker(pos, self))
 
     def place_entity(self, entity, pos):
-        self.entities.add(entity(pos, self))
+        new_entity = entity(pos, self)
+        if isinstance(new_entity, building.Building):
+            new_entity.on_build()
+        self.entities.add(new_entity)
+
+    def remove_entity(self, entity):
+        if isinstance(entity, building.Building):
+            entity.on_destroy()
+        self.entities.remove(entity)
 
     def add_drawing(self, drawing):
         self.drawings.append(drawing)

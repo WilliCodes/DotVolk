@@ -12,7 +12,7 @@ class Towncenter(Building):
     hp_max = initial_hp * hp_factor
 
     name = "Towncenter"
-    cost = {"food": 0, "wood": 200, "stone": 50, "pop": 0}
+    cost = {"food": 0, "wood": 100, "stone": 50, "pop": 0}
 
     image_path = './assets/towncenter.png'
 
@@ -54,3 +54,9 @@ class Towncenter(Building):
     def key_pressed(self, key):
         if key == 'w':
             self.append_to_queue(worker.Worker)
+
+    def on_build(self):
+        self.game.population_limit += 25
+
+    def on_destroy(self):
+        self.game.population_limit -= 25

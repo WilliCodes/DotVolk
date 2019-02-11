@@ -2,6 +2,7 @@ from building import Building
 import pygame
 import time
 import progress_bar
+import worker
 
 
 class BuildingInProgress(Building):
@@ -26,19 +27,46 @@ class BuildingInProgress(Building):
 
         self.game = game
 
-        self.start_time = time.time()
-        self.end_time = self.start_time + self.build_time
-
         self.progress_bar = progress_bar.ProgressBar(self, self.game)
+
+        self.workers = {}
+        self.progress_seconds = 0
 
     def draw(self):
         pygame.draw.rect(self.surface, (125, 125, 125), self.rect)
 
-        progress = (time.time() - self.start_time) / self.build_time
+    def update(self):
+
+        # which workers are currently on the building?
+        current_workers = []
+        collisions = pygame.sprite.spritecollide(self, self.game.entities, False)
+        for e in collisions:
+            if type(e) == worker.Worker:
+                current_workers.append(e)
+
+        # remove workers that are no longer on the building
+        for w in list(self.workers):
+            if w not in current_workers:
+                del self.workers[w]
+
+        if len(current_workers) == 0:
+            return
+
+        # add workers that just entered the building to the active workers, with time of entering
+        for w in current_workers:
+            if w not in self.workers and len(self.workers) < 5:
+                self.workers[w] = time.time()
+
+        # add worked time to progress and reset time
+        for w, t in self.workers.items():
+            self.progress_seconds += time.time() - t
+            self.workers[w] = time.time()
+
+        progress = self.progress_seconds / self.build_time
         self.progress_bar.update_progress_bar(progress)
         if progress >= 1:
             self.game.place_entity(self.building, self.rect.topleft)
-            self.kill()
+            self.game.remove_entity(self)
 
     def check_resources(self):
         cost = self.cost

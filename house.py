@@ -28,3 +28,9 @@ class House(Building):
 
     def draw(self):
         self.surface.blit(self.image, self.rect)
+
+    def on_build(self):
+        self.game.population_limit += 10
+
+    def on_destroy(self):
+        self.game.population_limit -= 10
