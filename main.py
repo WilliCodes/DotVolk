@@ -54,3 +54,4 @@ while run:
     clock.tick(cfg.FPS)
 
 pygame.quit()
+# commet to test something
